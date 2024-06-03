@@ -5,12 +5,12 @@ import User from '../model/User.mjs'; // Import your User model
 import dotenv from 'dotenv';
 dotenv.config();
 
-const { PORT, HOST } = process.env; 
+// const { PORT, HOST } = process.env; 
 
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: `http://${HOST}:${PORT}/auth/google/callback`,
+  callbackURL: process.env.GOOGLE_CALLBACK_URL,
   scope: ['openid','profile', 'email'] // Ensure these scopes are valid
   },
   async (accessToken, refreshToken, profile, cb) => {
