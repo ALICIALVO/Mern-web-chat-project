@@ -5,7 +5,7 @@ dotenv.config();
 
 const { CLIENT_URL } = process.env;
 
-const initializeSocket = (httpServer, CLIENT_URL) => {
+const initializeSocket = (httpServer) => {
     const io = new socketServer(httpServer, {
         cors: {
             origin: CLIENT_URL,
