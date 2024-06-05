@@ -1,7 +1,7 @@
 import { InputBase, Box, styled } from "@mui/material";
 import { Search as SearchIcon } from '@mui/icons-material';
 
-import PropTypes from 'prop-types'; // Import PropTypes
+import PropTypes from 'prop-types';
 
 
 

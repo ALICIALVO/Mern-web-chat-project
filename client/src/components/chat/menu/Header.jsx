@@ -47,7 +47,7 @@ const Header = () => {
     const toggleDrawer = () => {
         setOpenDrawer(true);
     };
-    console.log('Account:', account); // Debug log for account object
+    console.log('Account:', account); // debug log for account object
 
 
     return(

@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { MoreVert } from '@mui/icons-material';
 import { Menu, MenuItem, styled } from '@mui/material';
 
-import { AccountContext } from '../../../context/AccountProvider'; // Import AccountContext
+import { AccountContext } from '../../../context/AccountProvider'; 
 
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -19,7 +19,7 @@ const MenuOption = styled(MenuItem)`
 const HeaderMenu = ({ setOpenDrawer }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const { logout } = useContext(AccountContext);
-    const navigate = useNavigate(); // Initialize useNavigate
+    const navigate = useNavigate(); 
 
     const handleClose = () => {
         setAnchorEl(null);
@@ -33,7 +33,7 @@ const HeaderMenu = ({ setOpenDrawer }) => {
     const handleLogout = () => {
         handleClose();
         logout();
-        navigate('/'); // Redirect to login page
+        navigate('/'); // redirect to login page
     };
 
     return (
@@ -61,7 +61,7 @@ const HeaderMenu = ({ setOpenDrawer }) => {
     );
 };
 
-// Define PropTypes for HeaderMenu
+
 HeaderMenu.propTypes = {
     setOpenDrawer: PropTypes.func.isRequired,
 };

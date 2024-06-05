@@ -64,10 +64,10 @@ const InfoDrawer = ({open, setOpen}) => { //{ {open: true, setOpen: function(), 
     )
 }
 
-// Adding prop validation using PropTypes
+
 InfoDrawer.propTypes = {
-    open: PropTypes.bool.isRequired, // Ensure 'open' is a required boolean
-    setOpen: PropTypes.func.isRequired, // Ensure 'setOpen' is a required function
+    open: PropTypes.bool.isRequired, 
+    setOpen: PropTypes.func.isRequired,
   };
 
 export default InfoDrawer;
