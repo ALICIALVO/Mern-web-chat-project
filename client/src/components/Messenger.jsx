@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 import { AppBar, Toolbar, styled, Box } from '@mui/material';
 import { AccountContext } from '../context/AccountProvider';
 import LoginDialog from './account/LoginDialog';
@@ -29,21 +29,21 @@ const LoginHeader = styled(AppBar)`
 const Messenger = () => {
   const { account } = useContext(AccountContext);
 
-  const location = useLocation();
+  // const location = useLocation();
  
  
   // yariv console logs:
-  console.log('Current route:', location.pathname); // Log the current route
+  // console.log('Current route:', location.pathname); // Log the current route
 
   useEffect(() => {
-    console.log('Account changed:', account);
+    // console.log('Account changed:', account);
   }, [account]); // This useEffect hook will run whenever `account` changes
 
-    useEffect(() => {
-      console.log(`location search: ${location.search}`); 
+    // useEffect(() => {
+    //   console.log(`location search: ${location.search}`); 
 
 
-    },[location]);
+    // },[location]);
 
 
 

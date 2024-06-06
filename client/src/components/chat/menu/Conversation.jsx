@@ -65,7 +65,7 @@ const Conversation = ({ user }) => {
         try {
             await setConversationAPI({ senderId: account.sub, receiverId: user.sub });
             const data = await getConversation({ senderId: account.sub, receiverId: user.sub });
-            console.log('Setting conversation:', data); // Log the conversation being set
+            // console.log('Setting conversation:', data); // Log the conversation being set
             setConversation(data);  // Update the conversation in context
         } catch (error) {
             console.error('Error setting conversation:', error);

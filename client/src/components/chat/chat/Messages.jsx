@@ -51,7 +51,7 @@ const Messages = ({ person, conversation }) => {
 
     useEffect(() => {
         socket.current.on('getMessage', data => {
-            console.log('Received message:', data);
+            // console.log('Received message:', data);
             if (!data._id) {
                 console.error('Received message without _id:', data);
                 return;
@@ -130,7 +130,7 @@ const Messages = ({ person, conversation }) => {
                     Messages are end-to-end encrypted. No one outside of this chat, not even WhatsApp, can read or listen to them. Click to learn more.
                 </End2endmsg>
                 {messages && messages.map(message => {
-                    console.log("Rendering message with ID:", message._id);
+                    // console.log("Rendering message with ID:", message._id);
                     return (
                         <Container key={message._id} ref={scrollRef}>
                             <Message message={message} />

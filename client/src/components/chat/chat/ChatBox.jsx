@@ -20,7 +20,7 @@ const ChatBox = () => {
         const getConversationDetails = async () => {
             if (person?.sub) {
                 let data = await getConversation({ senderId: account.sub, receiverId: person.sub });
-                console.log('Fetched Conversation in ChatBox:', data); // Log fetched conversation
+                // console.log('Fetched Conversation in ChatBox:', data); // Log fetched conversation
                 setConversation(data);
             }
         }

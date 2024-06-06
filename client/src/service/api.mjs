@@ -6,7 +6,7 @@ const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 export const addUser = async (data) => {
     try {
-        console.log('Sending user data to server:', data);
+        // console.log('Sending user data to server:', data);
         const response = await axios.post(`${SERVER_URL}/add`, data);
         console.log('Server response:', response.data);
         return response.data;
@@ -23,7 +23,7 @@ export const addUser = async (data) => {
 export const getUsers = async () => {
     try {
         const response = await axios.get(`${SERVER_URL}/users`);
-        console.log('Fetched Users:', response.data); // Enhanced logging
+        // console.log('Fetched Users:', response.data); // Enhanced logging
         return response.data;
     } catch(error) {
         console.log('Error while calling getUsers API:', error.message);
@@ -44,7 +44,7 @@ export const setConversation = async (data) => {
 export const getConversation = async (params) => {
     try {
         const response = await axios.post(`${SERVER_URL}/conversation/get`, params);
-        console.log('Fetched Conversation:', response.data);
+        // console.log('Fetched Conversation:', response.data);
         return response.data;
     } catch (error) {
         console.error('Error while calling getConversation API:', error.message);
