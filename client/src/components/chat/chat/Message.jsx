@@ -1,29 +1,26 @@
+import { useContext } from "react";
 
+import { Box, styled, Typography } from "@mui/material";
+import GetAppIcon from "@mui/icons-material/GetApp";
 
-import { useContext } from 'react';
+import { formatDate, downloadMedia } from "../../../utils/common-utils.mjs";
+import { AccountContext } from "../../../context/AccountProvider";
+import { iconPDF } from "../../../assets/data.mjs";
 
-import { Box, styled, Typography } from '@mui/material';
-import GetAppIcon from '@mui/icons-material/GetApp';
-
-import { formatDate, downloadMedia } from '../../../utils/common-utils.mjs';
-import { AccountContext } from '../../../context/AccountProvider';
-import { iconPDF } from '../../../assets/data.mjs';
-
-import PropTypes from 'prop-types';
-
+import PropTypes from "prop-types";
 
 const Own = styled(Box)`
-    background: #dcf8c6;
-    padding: 0.5rem;
-    max-width: 60%;
-    width: fit-content;
-    margin-left: auto;
-    display: flex;
-    border-radius: 0.8rem;
-    word-break: break-word;
-    position: relative;
-    margin-bottom: 1rem;
-    /* &:after {
+  background: #dcf8c6;
+  padding: 0.5rem;
+  max-width: 60%;
+  width: fit-content;
+  margin-left: auto;
+  display: flex;
+  border-radius: 0.8rem;
+  word-break: break-word;
+  position: relative;
+  margin-bottom: 1rem;
+  /* &:after {
         content: '';
         position: absolute;
         top: 0.3rem;
@@ -36,16 +33,16 @@ const Own = styled(Box)`
     } */
 `;
 const Wrapper = styled(Box)`
-     background: #FFFFFF;
-    padding: 0.5rem;
-    max-width: 60%;
-    width: fit-content;
-    display: flex;
-    border-radius: 0.8rem;
-    word-break: break-word;
-    position: relative;
-    margin-bottom: 1rem;
-    /* &:after {
+  background: #ffffff;
+  padding: 0.5rem;
+  max-width: 60%;
+  width: fit-content;
+  display: flex;
+  border-radius: 0.8rem;
+  word-break: break-word;
+  position: relative;
+  margin-bottom: 1rem;
+  /* &:after {
         content: '';
         position: absolute;
         top: -0.1rem;
@@ -59,101 +56,107 @@ const Wrapper = styled(Box)`
 `;
 
 const Text = styled(Typography)`
-    font-size: 1.4rem;
-    padding: 0 2.5rem 0 0.5rem;
+  font-size: 1.4rem;
+  padding: 0 2.5rem 0 0.5rem;
 `;
 
 const Time = styled(Typography)`
-    font-size: 1rem;
-    color: #919191;
-    margin-top: 0.6rem;
-    word-break: keep-all;
-    margin-top: auto;
+  font-size: 1rem;
+  color: #919191;
+  margin-top: 0.6rem;
+  word-break: keep-all;
+  margin-top: auto;
 `;
 
-
 const ImageMessage = ({ message }) => {
-    const text = message.text || '';  // Fallback to an empty string if text is undefined
+  const text = message.text || ""; // Fallback to an empty string if text is undefined
 
-    return (
-        <Box style={{ position: 'relative' }}>
-            {text.includes('.pdf') ? (
-                <Box style={{ display: 'flex' }}>
-                    <img src={iconPDF} alt='pdf' style={{ width: 80 }} />
-                    <Typography style={{ fontSize: 14 }}>{text.split('/').pop()}</Typography>
-                </Box>
-            ) : (
-                <img style={{ width: 300, height: '100%', objectFit: 'cover' }} src={text} alt={text.split('/').pop()} />
-            )}
-            <Time style={{ position: 'absolute', bottom: 0, right: 0 }}>
-                <GetAppIcon
-                    onClick={(e) => downloadMedia(e, text)}
-                    style={{ marginRight: 10, border: '0.1rem solid grey', borderRadius: '50%' }}
-                    fontSize='small'
-                />
-                {formatDate(message.createdAt)}
-            </Time>
+  return (
+    <Box style={{ position: "relative" }}>
+      {text.includes(".pdf") ? (
+        <Box style={{ display: "flex" }}>
+          <img src={iconPDF} alt="pdf" style={{ width: 80 }} />
+          <Typography style={{ fontSize: 14 }}>
+            {text.split("/").pop()}
+          </Typography>
         </Box>
-    );
+      ) : (
+        <img
+          style={{ width: 300, height: "100%", objectFit: "cover" }}
+          src={text}
+          alt={text.split("/").pop()}
+        />
+      )}
+      <Time style={{ position: "absolute", bottom: 0, right: 0 }}>
+        <GetAppIcon
+          onClick={(e) => downloadMedia(e, text)}
+          style={{
+            marginRight: 10,
+            border: "0.1rem solid grey",
+            borderRadius: "50%",
+          }}
+          fontSize="small"
+        />
+        {formatDate(message.createdAt)}
+      </Time>
+    </Box>
+  );
 };
 
 ImageMessage.propTypes = {
-    message: PropTypes.shape({
-        text: PropTypes.string,
-        createdAt: PropTypes.string.isRequired,
-    }).isRequired,
+  message: PropTypes.shape({
+    text: PropTypes.string,
+    createdAt: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 const TextMessage = ({ message }) => {
-    const text = message.text || 'No text available';
+  const text = message.text || "No text available";
 
-    return (
-        <>
-            <Text>{text}</Text>
-            <Time>{formatDate(message.createdAt)}</Time>
-        </>
-    );
+  return (
+    <>
+      <Text>{text}</Text>
+      <Time>{formatDate(message.createdAt)}</Time>
+    </>
+  );
 };
 
 TextMessage.propTypes = {
-    message: PropTypes.shape({
-        text: PropTypes.string,
-        createdAt: PropTypes.string.isRequired,
-    }).isRequired,
+  message: PropTypes.shape({
+    text: PropTypes.string,
+    createdAt: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 const Message = ({ message }) => {
-    const { account } = useContext(AccountContext);
-    const isOwnMessage = message.senderId === account.sub;
+  const { account } = useContext(AccountContext);
+  const isOwnMessage = message.senderId === account.sub;
 
-    const MessageBox = isOwnMessage ? Own : Wrapper;
+  const MessageBox = isOwnMessage ? Own : Wrapper;
 
-    return (
-        <MessageBox>
-            {message.type === 'file' ? (
-                <ImageMessage message={message} />
-            ) : (
-                <TextMessage message={message} />
-            )}
-        </MessageBox>
-    );
+  return (
+    <MessageBox>
+      {message.type === "file" ? (
+        <ImageMessage message={message} />
+      ) : (
+        <TextMessage message={message} />
+      )}
+    </MessageBox>
+  );
 };
 
 Message.propTypes = {
-    message: PropTypes.shape({
-        senderId: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        text: PropTypes.string,
-        createdAt: PropTypes.string.isRequired,
-    }).isRequired,
+  message: PropTypes.shape({
+    senderId: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    text: PropTypes.string,
+    createdAt: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default Message;
 
-
-
 //CODE WITHOUT LOCAL HOST 28/05/24:
-
 
 // import { useContext } from 'react';
 
@@ -165,7 +168,6 @@ export default Message;
 // import { iconPDF } from '../../../assets/data.mjs';
 
 // import PropTypes from 'prop-types';
-
 
 // const Own = styled(Box)`
 //     background: #dcf8c6;
@@ -225,7 +227,6 @@ export default Message;
 //     word-break: keep-all;
 //     margin-top: auto;
 // `;
-
 
 // export const Message = ({ message }) => {
 //     const { account } = useContext(AccountContext);
@@ -303,8 +304,6 @@ export default Message;
 
 //=========================================================================================================
 // with prop types:
-
-
 
 // import { useContext } from 'react';
 // import { Box, styled, Typography } from '@mui/material';
