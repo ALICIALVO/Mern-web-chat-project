@@ -10,6 +10,8 @@ export const downloadMedia = async (e, originalImage) => {
     try {
         const response = await fetch(originalImage, {
             method: 'GET',
+            mode: 'cors', 
+            cache: 'no-cache',  
             headers: {
                 'Content-Type': 'application/octet-stream'
             }
@@ -36,4 +38,6 @@ export const downloadMedia = async (e, originalImage) => {
         console.log('Error while downloading the image', error.message);
     }
 };
+
+
 
