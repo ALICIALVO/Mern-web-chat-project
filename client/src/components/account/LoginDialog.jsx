@@ -1,4 +1,5 @@
 import { Dialog, Typography, List, ListItem, Box, Button, styled, Divider } from '@mui/material';
+import { Google } from '@mui/icons-material';
 import { qrCodeImage } from '../../assets/data.mjs';
 // import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect } from 'react'; // Import useContext
@@ -13,6 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Component = styled(Box)`
     display: flex;
+    
 `;
 
 const Container = styled(Box)`
@@ -27,15 +29,20 @@ const QRCode = styled('img')({
 
 const LoginButton = styled(Button)`
   position: absolute;
-  top: 51%;
-  transform: translateX(75%) translateY(90%);
+  top: 55%;
+  transform: translateX(50%) translateY(50%);
   background-color: #f0f2f5;
   color: #2aa884;
-  font-weight: 600;
   &:hover {
     background-color: #f0f2f5;
     box-shadow: 0.8rem 0.5rem 1rem #2aa884ae;
   }
+`
+const LoginButtonText = styled(Typography)`
+font-family: Segoe UI, Helvetica Neue, Helvetica, Lucida Grande, Arial, Ubuntu, Cantarell, Fira Sans, sans-serif;
+padding-left: 0.5rem;
+font-weight: 500;
+font-size: 1rem;
 `
 
 const Title = styled(Typography)`
@@ -139,7 +146,8 @@ const LoginDialog = () => {
           <QRCode src={qrCodeImage} alt="QR Code" />
           <Box>             
            <LoginButton onClick={handleLogin} variant="contained">
-                Log in with Google
+           <Google fontSize="medium" />
+                <LoginButtonText>Log in with Google</LoginButtonText>
               </LoginButton>
             </Box>
           </Box>
