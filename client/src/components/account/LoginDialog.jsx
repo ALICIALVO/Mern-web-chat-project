@@ -11,7 +11,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { useTheme } from '@mui/material/styles';
 
 const Component = styled(Box)(({ theme }) => ({
-  backgroundColor: '#f0f2f5',
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'center',
