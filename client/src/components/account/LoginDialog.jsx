@@ -37,6 +37,10 @@ const Container = styled(Box)(({ theme }) => ({
       textAlign: 'center',
       
   },
+  [theme.breakpoints.down('sm')]: { // 900px
+      textAlign: 'center',
+      padding: '1rem 0',
+  },
 }));
 
 const QRCodeContainer = styled(Box)(({ theme }) => ({
@@ -121,9 +125,9 @@ const Title = styled(Typography)(({ theme }) => ({
   paddingLeft: '0.8rem',
 
   [theme.breakpoints.down('sm')]: { // 600px
-      fontSize: '1.2rem',
-      paddingLeft: '0',
+      fontSize: '1.1rem',
       textAlign: 'left',
+      fontWeight: 500,
   },
 }));
 
@@ -142,11 +146,11 @@ const StyledList = styled(List)(({ theme }) => ({
       },    
       [theme.breakpoints.down('sm')]: { // 600px
           fontSize: '1rem',
-          lineHeight: '1.3rem',
+          lineHeight: '1.4rem',
           
       },    
     },
-})); // Add a comma here
+})); 
 
 const dialogStyle = (theme) => ({
   marginTop: '1%',
