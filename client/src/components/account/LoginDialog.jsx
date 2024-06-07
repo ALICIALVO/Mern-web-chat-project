@@ -1,165 +1,413 @@
-import { Dialog, Typography, List, ListItem, Box, Button, styled, Divider } from '@mui/material';
+import { Dialog, Typography, List, ListItem, Box, Button, styled } from '@mui/material';
+// import { Dialog, Typography, List, ListItem, Box, Button, styled, Divider } from '@mui/material';
 import { Google } from '@mui/icons-material';
 import { qrCodeImage } from '../../assets/data.mjs';
-// import { useNavigate } from 'react-router-dom';
-import { useContext, useEffect } from 'react'; // Import useContext
+import { useContext, useEffect } from 'react';
 import { useLocation } from "react-router-dom";
-import { AccountContext } from '../../context/AccountProvider'; // Import AccountContext
-// import { jwtDecode } from 'jwt-decode'; // Import jwt-decode
+import { AccountContext } from '../../context/AccountProvider';
 import { addUser } from '../../service/api.mjs';
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useTheme } from '@mui/material/styles';
 
+const Component = styled(Box)(({ theme }) => ({
+  backgroundColor: '#f0f2f5',
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'center',
+  height: '100%',
+  flexWrap: 'nowrap',
+  
+  [theme.breakpoints.down('md')]: { // 900px
+      flexDirection: 'column',
+      justifyContent: 'flex-start',
+      padding: '1rem',
+      // alignItems: 'center',
+  },
+  [theme.breakpoints.down('sm')]: { // 600px
+      padding: '0.5rem',
+  },
+}));
 
+const Container = styled(Box)(({ theme }) => ({
+  padding: '3.5rem 0 5rem 2.8rem',
+  // flex: '1 1 auto',
+  [theme.breakpoints.down('md')]: { // 900px
+      // padding: '1rem 0',
+      textAlign: 'center',
+      
+  },
+}));
 
-const Component = styled(Box)`
-    display: flex;
+const QRCodeContainer = styled(Box)(({ theme }) => ({
+  position: 'relative',
+  display: 'flex',
+  flexDirection: 'column',
+
+  alignItems: 'center',
+  margin: '3rem 2rem 0 6rem',
+  [theme.breakpoints.down('md')]: { // 900px
+      margin: '0 auto',
+  },
+}));
+
+const QRCode = styled('img')(({ theme }) => ({
+  height: 280,
+  width: 280,
+  [theme.breakpoints.down('md')]: { // 900px
+      // height: 200,
+      // width: 200,
+      // margin: '0 auto',
+  },
+  [theme.breakpoints.down('sm')]: { // 600px
+      height: 250,
+      width: 250,
+  }
+}));
+
+const LoginButton = styled(Button)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundColor: '#f0f2f5',
+  color: '#2aa884',
+  position: 'absolute',
+  top: '23%',
+  '&:hover': {
+      backgroundColor: '#f0f2f5',
+      boxShadow: '0.8rem 0.5rem 1rem #2aa884ae',
+  },
+  [theme.breakpoints.down('md')]: { // 960px
+    top: '65%',
     
-`;
+      // position: 'static',
+      // transform: 'none',
+      // marginTop: '1rem',
+  },
+  [theme.breakpoints.down('sm')]: { // 600px
+    // top: '65%',
+    // height: 25,
+    // width: 130,
+}
+}));
 
-const Container = styled(Box)`
-    padding: 3.5rem 0 5rem 2.8rem;
-`;
+const LoginButtonText = styled(Typography)(({ theme }) => ({
+  fontFamily: 'Segoe UI, Helvetica Neue, Helvetica, Lucida Grande, Arial, Ubuntu, Cantarell, Fira Sans, sans-serif',
+  paddingLeft: '0.5rem',
+  fontWeight: 500,
+  fontSize: '1rem',
+  // flexGrow: 1, // Ensure text takes up available space
+  [theme.breakpoints.down('md')]: { // 960px and below
+      fontSize: '0.9rem',
+      whiteSpace: 'nowrap',
+      // paddingLeft: '0.1rem',
+  },
+  [theme.breakpoints.down('sm')]: { // 600px and below
+      // fontSize: '0.5rem',
+      whiteSpace: 'nowrap',
+      paddingLeft: '0.2rem',
+      
+  },
+}));
 
-const QRCode = styled('img')({
-    margin: '3.5rem 0 0 6rem',
-    height: 280,
-    width: 280
+const Title = styled(Typography)(({ theme }) => ({
+  display: 'flex',
+  
+  fontSize: '1.7rem',
+  marginBottom: '1.5rem',
+  color: '#525252',
+  fontFamily: 'Segoe UI, Helvetica Neue, Helvetica, Lucida Grande, Arial, Ubuntu, Cantarell, Fira Sans, sans-serif',
+  fontWeight: 400,
+  paddingLeft: '0.8rem',
+
+  [theme.breakpoints.down('sm')]: { // 600px
+      fontSize: '1.2rem',
+      paddingLeft: '0',
+      textAlign: 'left',
+  },
+}));
+
+const StyledList = styled(List)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'flex-end',
+  '& > li': {
+      fontSize: '1.2rem',
+      fontFamily: 'Segoe UI, Helvetica Neue, Helvetica, Lucida Grande, Arial, Ubuntu, Cantarell, Fira Sans, sans-serif',
+      lineHeight: '2.2rem',
+      color: '#4a4a4a',
+      [theme.breakpoints.down('md')]: { // 900px
+          
+          
+      },    
+      [theme.breakpoints.down('sm')]: { // 600px
+          fontSize: '1rem',
+          lineHeight: '1.3rem',
+          
+      },    
+    },
+})); // Add a comma here
+
+const dialogStyle = (theme) => ({
+  marginTop: '1%',
+  height: '77%',
+  // width: '58%',
+  maxWidth: '100vw',
+  maxHeight: '100vh',
+  borderRadius: 1,
+  boxShadow: 20,
+  overflow: 'hidden',
+  [theme.breakpoints.down('md')]: { // 900px
+    // marginTop: '0',
+      // width: '90vw',
+      // width: '95%',
+  },
+  [theme.breakpoints.down('sm')]: { // 600px
+      // width: '95%',
+      // marginBottom: '50%',
+      height: '90%',
+      
+  },
 });
 
-const LoginButton = styled(Button)`
-  position: absolute;
-  top: 55%;
-  transform: translateX(50%) translateY(50%);
-  background-color: #f0f2f5;
-  color: #2aa884;
-  &:hover {
-    background-color: #f0f2f5;
-    box-shadow: 0.8rem 0.5rem 1rem #2aa884ae;
-  }
-`
-const LoginButtonText = styled(Typography)`
-font-family: Segoe UI, Helvetica Neue, Helvetica, Lucida Grande, Arial, Ubuntu, Cantarell, Fira Sans, sans-serif;
-padding-left: 0.5rem;
-font-weight: 500;
-font-size: 1rem;
-`
+// const StyledDivider = styled(Divider)`
+// width: 90%;
+// margin: 0 auto;
+// opacity: 0.8;
+// `;
 
-const Title = styled(Typography)`
-    font-size: 1.7rem;
-    margin-bottom: 1.5rem;
-    color: #525252;
-    font-family: Segoe UI, Helvetica Neue, Helvetica, Lucida Grande, Arial, Ubuntu, Cantarell, Fira Sans, sans-serif;
-    font-weight: 400;
-    padding-left: 0.8rem;
-`;
+const LoginDialog = () => {
+const { setAccount } = useContext(AccountContext);
+const location = useLocation();
+const theme = useTheme();
 
-const StyledList = styled(List)`
-    &  > li {
-        font-size: 1.2rem;
-        font-family: Segoe UI, Helvetica Neue, Helvetica, Lucida Grande, Arial, Ubuntu, Cantarell, Fira Sans, sans-serif;
-        line-height: 2.2rem;
-        color: #4a4a4a;
+useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const profile = params.get('profile');
+  
+    if (profile) {
+        const userProfile = JSON.parse(decodeURIComponent(profile));
+        const user = {
+            name: userProfile.displayName || 'Anonymous',
+            email: userProfile.email || '',
+            picture: userProfile.picture || '',
+            sub: userProfile.googleId || ''
+        };
+
+        setAccount(user);
+      
+        addUser(user).then(response => {
+            if (response?.msg === 'User already exists') {
+                toast.info('User already exists in the database.');
+            }
+        });
+
+        window.history.replaceState(null, '', window.location.pathname);
     }
-`;
+}, [setAccount, location.search]);
 
-const dialogStyle = {
-    marginTop: '1%',
-    height: '77%',
-    width: '58%',
-    maxWidth: '100%',
-    maxHeight: '100%',
-    borderRadius: 1,
-    boxShadow: 20,
-    overflow: 'hidden'
+const handleLogin = () => {
+    window.location.href = import.meta.env.VITE_GOOGLE_AUTH_URL;
 };
 
-const StyledDivider = styled(Divider)`
-    width: 90%;
-    margin: 0 auto;
-    opacity: 0.8;
-`;
-// These changes ensure your application handles Google OAuth flow correctly, creates and stores the JWT securely, 
-// and manages the user state effectively without directly using res and req in the client-side code.
-//Frontend (React Component)
-// On the frontend, handle the redirect, 
-// extract the user profile from the URL, and set the user account context.
-// Frontend:
-
-// Use useEffect to handle user profile extraction from the URL.
-// Parse the user profile and update the user account context.
-// Add the user to the database using the addUser function.
-// Clear the query parameters from the URL after extraction.
-const LoginDialog = () => {
-  const { setAccount } = useContext(AccountContext);
-  const location = useLocation();
-
-  useEffect(() => {
-      const params = new URLSearchParams(location.search);
-      const profile = params.get('profile');
-    
-      if (profile) {
-          const userProfile = JSON.parse(decodeURIComponent(profile));
-          const user = {
-              name: userProfile.displayName || 'Anonymous',
-              email: userProfile.email || '',
-              picture: userProfile.picture || '',
-              sub: userProfile.googleId || ''
-          };
-
-          setAccount(user); // Correctly set the account
-        
-          addUser(user).then(response => {
-              if (response?.msg === 'User already exists') {
-                  toast.info('User already exists in the database.');
-              }
-          });
-
-          window.history.replaceState(null, '', window.location.pathname);
-      }
-  }, [setAccount, location.search]);
-
-  const handleLogin = () => {
-      window.location.href = import.meta.env.VITE_GOOGLE_AUTH_URL;
-  };
-  
-    return (
-            <Dialog
-                open={true}
-                slotProps={{ backdrop: { style: { backgroundColor: 'unset' } } }}
-                maxWidth={'md'}
-                PaperProps={{ sx: dialogStyle }}
-            >
-        <Component>
-        <Container>
+return (
+  <Dialog
+    open={true}
+    slotProps={{ backdrop: { style: { backgroundColor: 'unset' } } }}
+    maxWidth={'md'}
+    PaperProps={{ sx: dialogStyle(theme) }}
+  >
+    <Component>
+      <Container>
         <Title>Use WhatsApp on your computer</Title>
-          
-          <StyledList>
-            <ListItem>1. Open WhatsApp on your phone</ListItem>
-            <ListItem>2. Tap Menu on Android, or Settings on  and iPhone</ListItem>
-            <ListItem>3. Tap Linked devices and then Link a device</ListItem>
-            <ListItem>4. Point your phone at this screen to capture the QR code</ListItem>
-          </StyledList>
-          </Container>
+        <StyledList>
+          <ListItem>1. Open WhatsApp on your phone</ListItem>
+          <ListItem>2. Tap Menu on Android, or Settings on iPhone</ListItem>
+          <ListItem>3. Tap Linked devices and then Link a device</ListItem>
+          <ListItem>4. Point your phone at this screen to capture the QR code</ListItem>
+        </StyledList>
+      </Container>
+      <QRCodeContainer>
+        <LoginButton onClick={handleLogin} variant="contained">
+          <Google fontSize="small" />
+          <LoginButtonText>Log in with Google</LoginButtonText>
+        </LoginButton>
+        <QRCode src={qrCodeImage} alt="QR Code" />
+      </QRCodeContainer>
+    </Component>
+    {/* <StyledDivider /> */}
+    <ToastContainer />
+  </Dialog>
+);
+};
 
-          <Box style={{ position: 'relative' }}>
-          <QRCode src={qrCodeImage} alt="QR Code" />
-          <Box>             
-           <LoginButton onClick={handleLogin} variant="contained">
-           <Google fontSize="medium" />
-                <LoginButtonText>Log in with Google</LoginButtonText>
-              </LoginButton>
-            </Box>
-          </Box>
-          </Component>
-          <StyledDivider />
-          <ToastContainer />
-      </Dialog>
-      
-    );
-  };
+export default LoginDialog;
+
+
+
+//perfect style without not responsive 07/06/24:
+// import { Dialog, Typography, List, ListItem, Box, Button, styled, Divider } from '@mui/material';
+// import { Google } from '@mui/icons-material';
+// import { qrCodeImage } from '../../assets/data.mjs';
+// // import { useNavigate } from 'react-router-dom';
+// import { useContext, useEffect } from 'react'; // Import useContext
+// import { useLocation } from "react-router-dom";
+// import { AccountContext } from '../../context/AccountProvider'; // Import AccountContext
+// // import { jwtDecode } from 'jwt-decode'; // Import jwt-decode
+// import { addUser } from '../../service/api.mjs';
+// import { toast, ToastContainer } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+
+
+
+// const Component = styled(Box)`
+//     display: flex;
+    
+// `;
+
+// const Container = styled(Box)`
+//     padding: 3.5rem 0 5rem 2.8rem;
+// `;
+
+// const QRCode = styled('img')({
+//     margin: '3.5rem 0 0 6rem',
+//     height: 280,
+//     width: 280
+// });
+
+// const LoginButton = styled(Button)`
+//   position: absolute;
+//   top: 55%;
+//   transform: translateX(50%) translateY(50%);
+//   background-color: #f0f2f5;
+//   color: #2aa884;
+//   &:hover {
+//     background-color: #f0f2f5;
+//     box-shadow: 0.8rem 0.5rem 1rem #2aa884ae;
+//   }
+// `
+// const LoginButtonText = styled(Typography)`
+// font-family: Segoe UI, Helvetica Neue, Helvetica, Lucida Grande, Arial, Ubuntu, Cantarell, Fira Sans, sans-serif;
+// padding-left: 0.5rem;
+// font-weight: 500;
+// font-size: 1rem;
+// `
+
+// const Title = styled(Typography)`
+//     font-size: 1.7rem;
+//     margin-bottom: 1.5rem;
+//     color: #525252;
+//     font-family: Segoe UI, Helvetica Neue, Helvetica, Lucida Grande, Arial, Ubuntu, Cantarell, Fira Sans, sans-serif;
+//     font-weight: 400;
+//     padding-left: 0.8rem;
+// `;
+
+// const StyledList = styled(List)`
+//     &  > li {
+//         font-size: 1.2rem;
+//         font-family: Segoe UI, Helvetica Neue, Helvetica, Lucida Grande, Arial, Ubuntu, Cantarell, Fira Sans, sans-serif;
+//         line-height: 2.2rem;
+//         color: #4a4a4a;
+//     }
+// `;
+
+// const dialogStyle = {
+//     marginTop: '1%',
+//     height: '77%',
+//     width: '58%',
+//     maxWidth: '100%',
+//     maxHeight: '100%',
+//     borderRadius: 1,
+//     boxShadow: 20,
+//     overflow: 'hidden'
+// };
+
+// const StyledDivider = styled(Divider)`
+//     width: 90%;
+//     margin: 0 auto;
+//     opacity: 0.8;
+// `;
+// // These changes ensure your application handles Google OAuth flow correctly, creates and stores the JWT securely, 
+// // and manages the user state effectively without directly using res and req in the client-side code.
+// //Frontend (React Component)
+// // On the frontend, handle the redirect, 
+// // extract the user profile from the URL, and set the user account context.
+// // Frontend:
+
+// // Use useEffect to handle user profile extraction from the URL.
+// // Parse the user profile and update the user account context.
+// // Add the user to the database using the addUser function.
+// // Clear the query parameters from the URL after extraction.
+// const LoginDialog = () => {
+//   const { setAccount } = useContext(AccountContext);
+//   const location = useLocation();
+
+//   useEffect(() => {
+//       const params = new URLSearchParams(location.search);
+//       const profile = params.get('profile');
+    
+//       if (profile) {
+//           const userProfile = JSON.parse(decodeURIComponent(profile));
+//           const user = {
+//               name: userProfile.displayName || 'Anonymous',
+//               email: userProfile.email || '',
+//               picture: userProfile.picture || '',
+//               sub: userProfile.googleId || ''
+//           };
+
+//           setAccount(user); // Correctly set the account
+        
+//           addUser(user).then(response => {
+//               if (response?.msg === 'User already exists') {
+//                   toast.info('User already exists in the database.');
+//               }
+//           });
+
+//           window.history.replaceState(null, '', window.location.pathname);
+//       }
+//   }, [setAccount, location.search]);
+
+//   const handleLogin = () => {
+//       window.location.href = import.meta.env.VITE_GOOGLE_AUTH_URL;
+//   };
   
-  export default LoginDialog;
+//     return (
+//             <Dialog
+//                 open={true}
+//                 slotProps={{ backdrop: { style: { backgroundColor: 'unset' } } }}
+//                 maxWidth={'md'}
+//                 PaperProps={{ sx: dialogStyle }}
+//             >
+//         <Component>
+//         <Container>
+//         <Title>Use WhatsApp on your computer</Title>
+          
+//           <StyledList>
+//             <ListItem>1. Open WhatsApp on your phone</ListItem>
+//             <ListItem>2. Tap Menu on Android, or Settings on  and iPhone</ListItem>
+//             <ListItem>3. Tap Linked devices and then Link a device</ListItem>
+//             <ListItem>4. Point your phone at this screen to capture the QR code</ListItem>
+//           </StyledList>
+//           </Container>
+
+//           <Box style={{ position: 'relative' }}>
+//           <QRCode src={qrCodeImage} alt="QR Code" />
+//           <Box>             
+//            <LoginButton onClick={handleLogin} variant="contained">
+//            <Google fontSize="medium" />
+//                 <LoginButtonText>Log in with Google</LoginButtonText>
+//               </LoginButton>
+//             </Box>
+//           </Box>
+//           </Component>
+//           <StyledDivider />
+//           <ToastContainer />
+//       </Dialog>
+      
+//     );
+//   };
+  
+//   export default LoginDialog;
 
 //=========================================================
 //responsive ui:

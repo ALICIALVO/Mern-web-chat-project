@@ -99,12 +99,129 @@ const Messenger = () => {
 };
 
 export default Messenger;
+//=========================================================
+
+// import { useContext, useEffect } from 'react';
+// // import { useLocation } from 'react-router-dom';
+// import { AppBar, Toolbar, styled, Box } from '@mui/material';
+// import { AccountContext } from '../context/AccountProvider';
+// import LoginDialog from './account/LoginDialog';
+// import ChatDialog from './chat/ChatDialog';
+
+
+
+// const Component = styled(Box)(({ theme }) => ({
+//   height: '100vh',
+//   background: '#ebeae6',
+//   [theme.breakpoints.down('md')]: { // 960px and below
+//     // height: 'auto',
+//     background: '#ebeae6',
+//   },
+//   // [theme.breakpoints.down('sm')]: { // 600px and below
+//   //   // height: 'auto',
+//   //   background: '#ebeae6',
+//   // },
+// }));
+// // login f0f2f5 color background after login: e2e1dd
+
+// const Header = styled(AppBar)(({ theme }) => ({
+//   height: '12.5rem',
+//   backgroundColor: '#2aa884',
+//   boxShadow: 'none',
+//   padding: '4rem',
+//   [theme.breakpoints.down('md')]: { // 960px and below
+//     height: '10rem',
+//     padding: '2rem',
+//   },
+//   [theme.breakpoints.down('sm')]: { // 600px and below
+//     height: '8rem',
+//     padding: '1rem',
+//   },
+// }));
+
+// const LoginHeader = styled(AppBar)` 
+//   height: 14rem;
+//   background-color: #2aa884;
+//   box-shadow: none;
+//   padding: 4rem;
+// `;
+
+// const Messenger = () => {
+//   const { account } = useContext(AccountContext);
+
+//   // const location = useLocation();
+ 
+ 
+//   // yariv console logs:
+//   // console.log('Current route:', location.pathname); // Log the current route
+
+//   useEffect(() => {
+//     // console.log('Account changed:', account);
+//   }, [account]); // This useEffect hook will run whenever `account` changes
+
+//     // useEffect(() => {
+//     //   console.log(`location search: ${location.search}`); 
+
+
+//     // },[location]);
 
 
 
 
 
 
+
+
+
+//     // yariv example:
+//     // useEffect(() => {
+//     //   const params = new URL(window.location.toString()).searchParams;
+//     //   const profile = params.get("profile");
+//     //   const token = params.get("token");
+//     //   console.log('profile - ',profile)
+//     //   console.log('token - ',token)
+//     //   if (profile && token) {
+//     //     // set_authenticated(true)
+//     //     // set_user(JSON.parse(profile))
+        
+//     //     localStorage.setItem('token',token);
+  
+//     //     //remove query string and path from url...
+//     //     window.history.replaceState({}, document.title, "/");
+//     //   }
+//     // }, [])
+
+
+//   return (
+//     <Component>
+//     {
+//       account ? 
+//       <>
+//             <Header>
+//               <Toolbar>
+               
+//               </Toolbar>
+//             </Header>
+//             <ChatDialog />
+//             </>
+//             : 
+//             <>
+//             <LoginHeader>
+//             <Toolbar>
+          
+//               </Toolbar>
+//             </LoginHeader>
+//             <LoginDialog /> 
+//             </>
+//       }
+//       </Component>
+//   );
+// };
+
+// export default Messenger;
+
+
+//=========================================================
 
 
 
