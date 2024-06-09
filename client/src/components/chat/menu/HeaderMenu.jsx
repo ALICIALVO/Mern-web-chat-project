@@ -38,7 +38,7 @@ const HeaderMenu = ({ setOpenDrawer }) => {
 
     return (
         <>
-            <MoreVert onClick={handleClick} />
+            <MoreVert onClick={handleClick} style={{ cursor: 'pointer' }}/>
             <Menu
                 anchorEl={anchorEl}
                 keepMounted
