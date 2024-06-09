@@ -109,6 +109,7 @@ const ImageMessage = ({ message }) => {
         <GetAppIcon
           onClick={(e) => downloadMedia(e, text)}
           style={{
+            cursor: 'pointer',
             marginRight: 10,
             border: "0.1rem solid grey",
             borderRadius: "50%",
