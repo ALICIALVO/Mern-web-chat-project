@@ -50,7 +50,7 @@ const Conversation = ({ user }) => {
         const getConversationDetails = async () => {
             try {
                 const data = await getConversation({ senderId: account.sub, receiverId: user.sub });
-                console.log('Fetched Conversation Details:', data); // Log fetched conversation details
+                // console.log('Fetched Conversation Details:', data); // Log fetched conversation details
                 setMessage({ text: data?.message, timestamp: data?.updatedAt });
                 setConversation(data);  // Store conversation data in context
             } catch (error) {
