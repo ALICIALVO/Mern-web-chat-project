@@ -27,17 +27,16 @@ const ChatBox = () => {
         getConversationDetails();
     }, [person.sub, account.sub]);
 
-    return(
-        <Box style={{ height: '75%'}}>
-            <ChatHeader person={person}/>
-            {/* <Messages person={person} conversation={conversation}/> */}
+    return (
+        <Box style={{ height: '75%' }}>
+            <ChatHeader person={person} />
             {conversation ? (
                 <Messages person={person} conversation={conversation} />
             ) : (
                 <div>Loading...</div> // Add a loading state
             )}
         </Box>
-    )
+    );
 }
 
 ChatBox.propTypes = {
