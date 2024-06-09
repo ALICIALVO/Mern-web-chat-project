@@ -54,7 +54,7 @@ const InfoDrawer = ({open, setOpen}) => { //{ {open: true, setOpen: function(), 
         
       >
         <Header>
-            <ArrowBack onClick={() => setOpen(false)}/>
+            <ArrowBack onClick={() => setOpen(false)} style={{cursor: 'pointer'}}/>
             <Text>Profile</Text>
         </Header>
         <Component>
