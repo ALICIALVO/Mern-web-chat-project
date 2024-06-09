@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 
 
 import {Box, styled} from '@mui/material';
-import { Chat as MessageIcon } from '@mui/icons-material';
+import { AddCommentOutlined as MessageIcon } from '@mui/icons-material';
 
 
 
@@ -29,15 +29,17 @@ const Wrapper = styled(Box)`
     };
     & :first-of-type {
         font-size: 2.2rem;
-        margin-right: 0.8rem;
+        margin-right: 1rem;
         margin-top: 0.3rem;
     }
 `;
+
 
 const Image = styled('img')({
     height: 40,
     width:40,
     borderRadius:'50%',
+    cursor:'pointer'
 })
 
 const Header = () => {
@@ -56,7 +58,7 @@ const Header = () => {
         <Image src={account?.picture} alt="dp" 
         onClick={toggleDrawer}/>
         <Wrapper>
-            <MessageIcon />
+            <MessageIcon style={{ fontSize: '1.5rem' }}/>
             <HeaderMenu setOpenDrawer={setOpenDrawer}/>
         </Wrapper>
         </Component>
