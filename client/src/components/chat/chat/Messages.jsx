@@ -129,14 +129,18 @@ const Messages = ({ person, conversation }) => {
                     <Lockicon />
                     Messages are end-to-end encrypted. No one outside of this chat, not even WhatsApp, can read or listen to them. Click to learn more.
                 </End2endmsg>
-                {messages && messages.map(message => {
-                    // console.log("Rendering message with ID:", message._id);
-                    return (
-                        <Container key={message._id} ref={scrollRef}>
-                            <Message message={message} />
-                        </Container>
-                    );
-                })}
+                {messages.length > 0 ? (
+                    messages.map(message => {
+                        // console.log("Rendering message with ID:", message._id);
+                        return (
+                            <Container key={message._id} ref={scrollRef}>
+                                <Message message={message} />
+                            </Container>
+                        );
+                    })
+                ) : (
+                    <Typography style={{ textAlign: 'center', marginTop: '2rem' }}>No messages yet</Typography>
+                )}
             </Component>
             <Footer
                 sendText={sendText}
@@ -168,6 +172,7 @@ Messages.propTypes = {
 };
 
 export default Messages;
+
 
 //CODE AFTER LOCALHOST DELETED 28/05/24:
 // import { useContext, useState, useEffect, useRef } from 'react';
