@@ -79,19 +79,20 @@ const Footer = ({ sendText, setValue, value, file, setFile, setImage }) => {
     return (
         <Container>
             <EmojiEmotionsOutlined />
-            <label htmlFor="fileInput">
-            <IconButton>
-                <ClipIcon />
-            </IconButton>
-            </label>
             <input 
                 type="file"
                 id="fileInput"
                 style={{ display: 'none' }}
                 onChange={onFileChange}
             />
+            <label htmlFor="fileInput">
+                <IconButton component="span">
+                    <ClipIcon style={{ color: '#919191' }} />
+                </IconButton>
+            </label>
             <Search>
                 <InputField
+                    id="textInput"
                     placeholder="Type a message"
                     onChange={(e) => setValue(e.target.value)}
                     onKeyDown={handleSendText}
@@ -101,7 +102,7 @@ const Footer = ({ sendText, setValue, value, file, setFile, setImage }) => {
                 {uploadComplete && <Typography variant="body2" color="green">Upload complete</Typography>}
             </Search>
             <IconButton onClick={handleSendText} color="primary">
-            <Send style={{ color: '#919191' }} />
+                <Send style={{ color: '#919191' }} />
             </IconButton>
             <Mic />
         </Container>
@@ -118,3 +119,4 @@ Footer.propTypes = {
 };
 
 export default Footer;
+
