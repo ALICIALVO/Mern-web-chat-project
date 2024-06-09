@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
-import { Box, InputBase, styled } from '@mui/material';
-import { EmojiEmotionsOutlined, AttachFile,Mic,Send } from '@mui/icons-material';
+import { useState, useEffect } from 'react';
+import { Box, InputBase, styled, Typography, CircularProgress, IconButton } from '@mui/material';
+import { EmojiEmotionsOutlined, AttachFile, Mic, Send } from '@mui/icons-material';
 import { uploadFile } from '../../../service/api.mjs';
 import PropTypes from 'prop-types';
 
@@ -21,6 +21,8 @@ const Search = styled(Box)`
     border-radius: 1.8rem;
     background-color: #FFFFFF;
     width: calc(94% - 10rem);
+    display: flex;
+    align-items: center;
 `;
 
 const InputField = styled(InputBase)`
@@ -29,39 +31,33 @@ const InputField = styled(InputBase)`
     padding-left: 2.5rem;
     font-size: 1.4rem;
     height: 2rem;
-
 `;
 
 const ClipIcon = styled(AttachFile)`
     transform: rotate(40deg);
 `;
 
-// const SendMsgIcon = styled(SendIcon)`
-// width: calc(94% - 10rem);
-// `
-
 const Footer = ({ sendText, setValue, value, file, setFile, setImage }) => {
+    const [uploading, setUploading] = useState(false);
+    const [uploadComplete, setUploadComplete] = useState(false);
+
     useEffect(() => {
-        const getImage = async () => {
+        const uploadImage = async () => {
             if (file) {
+                setUploading(true);
+                setUploadComplete(false);
                 const data = new FormData();
                 data.append("name", file.name);
                 data.append("file", file);
 
-                let response = await uploadFile(data);
-                console.log(response);
+                const response = await uploadFile(data);
                 setImage(response.data);
+                setUploading(false);
+                setUploadComplete(true);
             }
         };
-        getImage();
+        uploadImage();
     }, [file, setImage]);
-
-    // Explanation:
-
-// const selectedFile = e.target.files[0];: This line assigns the selected file to a variable named selectedFile.
-// if (selectedFile) {: This line checks if a file is selected. If a file is selected, the code inside the if block executes.
-// setFile(selectedFile);: This line sets the selected file to the state variable file.
-// setValue(selectedFile.name);: This line sets the name of the selected file to the state variable value.
 
     const onFileChange = (e) => {
         const selectedFile = e.target.files[0];
@@ -71,11 +67,22 @@ const Footer = ({ sendText, setValue, value, file, setFile, setImage }) => {
         }
     };
 
+    const handleSendText = (e) => {
+        if (e.type === 'click' || (e.key === 'Enter' && value.trim())) {
+            sendText(e);
+            setValue('');
+            setFile(null);
+            setUploadComplete(false);
+        }
+    };
+
     return (
         <Container>
             <EmojiEmotionsOutlined />
-            <label htmlFor='fileInput'>
+            <label htmlFor="fileInput">
+            <IconButton>
                 <ClipIcon />
+            </IconButton>
             </label>
             <input 
                 type="file"
@@ -87,13 +94,15 @@ const Footer = ({ sendText, setValue, value, file, setFile, setImage }) => {
                 <InputField
                     placeholder="Type a message"
                     onChange={(e) => setValue(e.target.value)}
-                    onKeyDown={(e) => sendText(e)}
+                    onKeyDown={handleSendText}
                     value={value}
-                    
                 />
+                {uploading && <CircularProgress size={20} />}
+                {uploadComplete && <Typography variant="body2" color="green">Upload complete</Typography>}
             </Search>
-            
-            <Send onClick={(e) => sendText(e)} style={{ cursor: 'pointer' }} />
+            <IconButton onClick={handleSendText} color="primary">
+            <Send style={{ color: '#919191' }} />
+            </IconButton>
             <Mic />
         </Container>
     );
@@ -109,6 +118,8 @@ Footer.propTypes = {
 };
 
 export default Footer;
+
+
 
 
 
