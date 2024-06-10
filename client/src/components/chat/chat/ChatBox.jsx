@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 
-import { Box } from '@mui/material';
+import { Box, CircularProgress, Typography } from '@mui/material';
 
 import { AccountContext } from '../../../context/AccountProvider';
 import { getConversation } from '../../../service/api.mjs';
@@ -16,24 +16,34 @@ const ChatBox = () => {
     const { person, account } = useContext(AccountContext);
     const [conversation, setConversation] = useState(null);
 
+    
     useEffect(() => {
-        const getConversationDetails = async () => {
+        const fetchConversation = async () => {
             if (person?.sub) {
-                let data = await getConversation({ senderId: account.sub, receiverId: person.sub });
-                // console.log('Fetched Conversation in ChatBox:', data); // Log fetched conversation
-                setConversation(data);
+                try {
+                    const data = await getConversation({ senderId: account.sub, receiverId: person.sub });
+                    setConversation(data || {});
+                } catch (error) {
+                    console.error('Error fetching conversation:', error);
+                    setConversation({}); // Ensure we set conversation to an empty object if there's an error
+                }
             }
-        }
-        getConversationDetails();
-    }, [person.sub, account.sub]);
+        };
+
+        fetchConversation();
+    }, [person?.sub, account?.sub]);
+
+    if (!conversation) {
+        return <CircularProgress />;
+    }
 
     return (
         <Box style={{ height: '75%' }}>
             <ChatHeader person={person} />
-            {conversation ? (
+            {Object.keys(conversation).length ? (
                 <Messages person={person} conversation={conversation} />
             ) : (
-                <div>Loading...</div> // Add a loading state
+                <Typography style={{ textAlign: 'center', marginTop: '2rem' }}>No messages yet</Typography>
             )}
         </Box>
     );
