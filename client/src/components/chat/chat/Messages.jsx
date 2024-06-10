@@ -51,9 +51,7 @@ const Messages = ({ person, conversation }) => {
 
     useEffect(() => {
         socket.current.on('getMessage', data => {
-            // console.log('Received message:', data);
             if (!data._id) {
-                console.error('Received message without _id:', data);
                 return;
             }
             setIncomingMessage({
@@ -66,11 +64,8 @@ const Messages = ({ person, conversation }) => {
     useEffect(() => {
         const getMessageDetails = async () => {
             if (conversation?._id) {
-                console.log('Fetching messages for conversation ID:', conversation._id);
                 let data = await getMessages(conversation._id);
                 setMessages(data);
-            } else {
-                console.error('Conversation ID is undefined');
             }
         };
         getMessageDetails();

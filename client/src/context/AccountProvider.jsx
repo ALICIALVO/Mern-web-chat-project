@@ -16,19 +16,29 @@ const AccountProvider = ({ children }) => {
 
     const socket = useRef();
 
-    useEffect(() => {  
-        const webSocketUrl = import.meta.env.VITE_WEBSOCKET_URL;
-                socket.current = io(webSocketUrl);
-            }, []); 
 
+   useEffect(() => {
+    const webSocketUrl = import.meta.env.VITE_WEBSOCKET_URL;
+    socket.current = io(webSocketUrl);
 
-            //logout::::
-            const logout = () => {
-                // Clear the token from cookies
-                document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;';
-                // Reset the account state
-                setAccount(null);
-            };
+    socket.current.on("getUsers", (users) => {
+      setActiveUsers(users);
+    });
+
+    return () => {
+      if (socket.current) {
+        socket.current.disconnect();
+      }
+    };
+  }, []);
+
+  const logout = () => {
+    if (socket.current) {
+      socket.current.emit('customDisconnect');
+    }
+    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;';
+    setAccount(null);
+  };
 
     return (
         <AccountContext.Provider

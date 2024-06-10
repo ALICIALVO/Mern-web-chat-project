@@ -13,24 +13,34 @@ const initializeSocket = (httpServer) => {
         }
     });
 
-let users = [];
+    let users = [];
 
-const addUser = (userData, socketId) => {
-    !users.some(user => user.sub == userData.sub) && users.push({ ...userData, socketId});
-}
+    const addUser = (userData, socketId) => {
+        if (!users.some(user => user.sub == userData.sub)) {
+            users.push({ ...userData, socketId });
+            console.log('User added:', userData, 'Socket ID:', socketId);
+        }
+    };
 
-const getUser = (userId) => {
-    return users.find(user => user.sub === userId);
-}
+    const removeUser = (socketId) => {
+        const user = users.find(user => user.socketId === socketId);
+        if (user) {
+            users = users.filter(user => user.socketId !== socketId);
+            console.log('User removed:', user);
+        }
+    };
 
-io.on('connection', (socket) => {
-    console.log('a user connected');
-    
+    const getUser = (userId) => {
+        return users.find(user => user.sub === userId);
+    };
 
-    socket.on('addUsers', userData => { 
-        addUser(userData, socket.id);
-        io.emit('getUsers', users);
-        })
+    io.on('connection', (socket) => {
+        console.log('A user connected, socket ID:', socket.id);
+
+        socket.on('addUsers', userData => {
+            addUser(userData, socket.id);
+            io.emit('getUsers', users);
+        });
 
         socket.on('sendMessage', data => {
             console.log(`sendMessage event triggered by socket ${socket.id} with data:`, data);
@@ -42,8 +52,23 @@ io.on('connection', (socket) => {
             }
         });
 
-        
+        // Custom disconnect event
+        socket.on('customDisconnect', () => {
+            console.log('Custom disconnect event received for socket:', socket.id);
+            removeUser(socket.id);
+            io.emit('getUsers', users);
+        });
+
+        // Default disconnect event
+        socket.on('disconnect', () => {
+            console.log('A user disconnected, socket ID:', socket.id);
+            removeUser(socket.id);
+            io.emit('getUsers', users);
+        });
     });
 };
 
 export default initializeSocket;
+
+
+

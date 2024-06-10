@@ -15,12 +15,11 @@ export const addUser = async (request, response) => {
       response.status(200).json({ msg: 'User already exists' });
       return;
     }
-    
-    // Create a new user
+    //create new user
     const newUser = new User(request.body);
     await newUser.save();
     console.log('New user created:', newUser);
-    
+
     response.status(200).json(newUser);
   } catch (error) {
     console.error('Error in addUser:', error.message);

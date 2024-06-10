@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useCallback } from "react";
 import React from "react";
 // import PropTypes from 'prop-types'; // Import PropTypes
 import { Box, styled, Divider, Typography } from "@mui/material";
@@ -29,34 +29,35 @@ const Conversations = ({ text }) => {
   const [users, setUsers] = useState([]);
   const { account, socket, setActiveUsers } = useContext(AccountContext);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getUsers();
-        const filteredData = response.filter(user =>
-          user.name.toLowerCase().includes(text.toLowerCase())
-        );
+  const fetchData = useCallback(async () => {
+    try {
+      const response = await getUsers();
+      const filteredData = response.filter(user =>
+        user.name.toLowerCase().includes(text.toLowerCase())
+      );
 
-        // Exclude current logged-in user
-        const uniqueUsers = Array.from(new Set(filteredData.map(user => user.sub)))
-          .map(sub => filteredData.find(user => user.sub === sub))
-          .filter(user => user.sub !== account.sub);
+      const uniqueUsers = Array.from(new Set(filteredData.map(user => user.sub)))
+        .map(sub => filteredData.find(user => user.sub === sub))
+        .filter(user => user.sub !== account.sub);
 
-        setUsers(uniqueUsers);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    };
-
-    fetchData();
+      setUsers(uniqueUsers);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
   }, [text, account.sub]);
 
   useEffect(() => {
-        socket.current.emit("addUsers", account);
-        socket.current.on("getUsers", (users) => {
-          setActiveUsers(users);
-        });
-      }, [account, socket, setActiveUsers]);
+    fetchData();
+  }, [fetchData]);
+
+  useEffect(() => {
+    socket.current.emit("addUsers", account);
+    socket.current.on("getUsers", (users) => {
+      setActiveUsers(users);
+      fetchData(); // Refresh the user list when active users update
+    });
+  }, [account, socket, setActiveUsers, fetchData]);
+
 
   return (
     <Component>
