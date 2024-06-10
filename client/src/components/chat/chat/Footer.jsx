@@ -3,6 +3,8 @@ import { Box, InputBase, styled, Typography, CircularProgress, IconButton } from
 import { EmojiEmotionsOutlined, AttachFile, Mic, Send } from '@mui/icons-material';
 import { uploadFile } from '../../../service/api.mjs';
 import PropTypes from 'prop-types';
+import Picker from '@emoji-mart/react'
+import data from '@emoji-mart/data';
 
 const Container = styled(Box)`
     height: 5.5rem;
@@ -37,9 +39,17 @@ const ClipIcon = styled(AttachFile)`
     transform: rotate(40deg);
 `;
 
+const EmojiPickerContainer = styled(Box)`
+    position: absolute;
+    bottom: 5rem; 
+    /* left: 0; */
+    z-index: 1; 
+`;
+
 const Footer = ({ sendText, setValue, value, file, setFile, setImage }) => {
     const [uploading, setUploading] = useState(false);
     const [uploadComplete, setUploadComplete] = useState(false);
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
     useEffect(() => {
         const uploadImage = async () => {
@@ -76,9 +86,21 @@ const Footer = ({ sendText, setValue, value, file, setFile, setImage }) => {
         }
     };
 
+    const addEmoji = (emoji) => {
+        setValue(value + emoji.native);
+        setShowEmojiPicker(false);
+    };
+
     return (
         <Container>
-            <EmojiEmotionsOutlined />
+            <IconButton onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+                <EmojiEmotionsOutlined />
+            </IconButton>
+            {showEmojiPicker && (
+                <EmojiPickerContainer>
+                    <Picker data={data} onEmojiSelect={addEmoji} />
+                </EmojiPickerContainer>
+            )}
             <input 
                 type="file"
                 id="fileInput"
