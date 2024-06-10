@@ -43,7 +43,7 @@ const Text = styled(Typography)`
 `;
 
 const Conversation = ({ user }) => {
-    const { setPerson, account, newMessageFlag, setConversation } = useContext(AccountContext);
+    const { setPerson, account, newMessageFlag, setConversation, socket } = useContext(AccountContext);
     const [message, setMessage] = useState({});
 
     useEffect(() => {
@@ -57,7 +57,18 @@ const Conversation = ({ user }) => {
             }
         };
         getConversationDetails();
-    }, [newMessageFlag, account.sub, user.sub, setConversation]);
+
+        const handleMessage = () => {
+          getConversationDetails();
+        };
+
+        const currentSocket = socket.current;
+        currentSocket.on('getMessage', handleMessage);
+
+        return () => {
+          currentSocket.off('getMessage', handleMessage);
+        };
+    }, [newMessageFlag, account.sub, user.sub, setConversation, socket]);
 
     const getUser = async () => {
         setPerson(user);

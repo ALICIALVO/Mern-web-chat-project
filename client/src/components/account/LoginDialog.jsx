@@ -6,8 +6,6 @@ import { useContext, useEffect } from 'react';
 import { useLocation } from "react-router-dom";
 import { AccountContext } from '../../context/AccountProvider';
 import { addUser } from '../../service/api.mjs';
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useTheme } from '@mui/material/styles';
 
 const Component = styled(Box)(({ theme }) => ({
@@ -200,10 +198,10 @@ useEffect(() => {
         setAccount(user);
       
         addUser(user).then(response => {
-            if (response?.msg === 'User already exists') {
-                toast.info('User already exists in the database.');
-            }
-        });
+          if (response?.msg === 'User already exists') {
+              console.info('User already exists in the database.');
+          }
+      });
 
         window.history.replaceState(null, '', window.location.pathname);
     }
@@ -239,7 +237,6 @@ return (
       </QRCodeContainer>
     </Component>
     {/* <StyledDivider /> */}
-    <ToastContainer />
   </Dialog>
 );
 };

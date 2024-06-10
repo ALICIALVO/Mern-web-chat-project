@@ -27,7 +27,7 @@ const StyledDivider = styled(Divider)`
 
 const Conversations = ({ text }) => {
   const [users, setUsers] = useState([]);
-  const { account, socket, setActiveUsers } = useContext(AccountContext);
+  const { account, socket, setActiveUsers, newMessageFlag } = useContext(AccountContext);
 
   const fetchData = useCallback(async () => {
     try {
@@ -48,13 +48,17 @@ const Conversations = ({ text }) => {
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+  }, [fetchData, newMessageFlag]);
 
   useEffect(() => {
     socket.current.emit("addUsers", account);
     socket.current.on("getUsers", (users) => {
       setActiveUsers(users);
-      fetchData(); // Refresh the user list when active users update
+      fetchData(); 
+    });
+
+    socket.current.on("getMessage", () => {
+      fetchData(); // Refresh user list when a new message is received
     });
   }, [account, socket, setActiveUsers, fetchData]);
 

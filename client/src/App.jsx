@@ -16,9 +16,7 @@
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Messenger from './components/Messenger';
-import AccountProvider from './context/AccountProvider';
-import { ToastContainer } from 'react-toastify'; 
-import 'react-toastify/dist/ReactToastify.css'; 
+import AccountProvider from './context/AccountProvider'; 
 
 export const App = () => {
   return (
@@ -28,7 +26,6 @@ export const App = () => {
           <Route path="/" element={<Messenger />} />
           <Route path="/messenger" element={<Messenger />} />
         </Routes>
-        <ToastContainer />
       </AccountProvider>
     </Router>
   );
