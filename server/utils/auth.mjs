@@ -4,7 +4,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const generateToken = (userId) => {
-
   return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: '1h' });
 };
 
@@ -30,4 +29,4 @@ export const authenticateJWT = (req, res, next) => {
 };
 
 
-// node -e "console.log(require('crypto').randomBytes(32).toString('hex'));" generate jwt secret
+// node -e "console.log(require('crypto').randomBytes(32).toString('hex'));" > generate jwt secret
