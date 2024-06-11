@@ -38,34 +38,6 @@ Here are some of the project's best features:
 * **Profile View:** View your own profile.
 
 ---
-<h2 style="color:#2aa884">Live Action</h2>
-
-* **Online Website:** <a href="https://web-chat-app-omor.onrender.com">WebChat</a>
-
-
-<h2 style="color:#2aa884">🛠️ Installation Steps</h2>
-
-1. **Clone the repository:**
-
-    ```sh
-    git clone https://github.com/ALICIALVO/Mern-web-chat-project.git
-    cd whatsapp-web-project
-    ```
-
-2. **Install dependencies for both client and server:**
-
-    ```sh
-    cd client
-    npm install
-    cd server
-    npm install
-    ```
-
-3. **Set up environment variables:**
-
-    Create a `.env` file based on `.env.example`.
-
----
 
 <h2 style="color:#2aa884">💻 Built With</h2>
 
@@ -92,7 +64,101 @@ Technologies used in the project:
 * PassportJs
 * Multer
 
+<h2 style="color:#2aa884">Live Action</h2>
+
+* **Online Website:** <a href="https://web-chat-app-omor.onrender.com">WebChat</a>
 ---
+<h2 style="color:#2aa884">🛠️ Installation Steps</h2>
+
+1. **Clone the repository:**
+
+    ```sh
+    git clone https://github.com/ALICIALVO/Mern-web-chat-project.git
+    cd whatsapp-web-project
+    ```
+
+2. **Install dependencies for both client and server:**
+
+    ```sh
+    cd client
+    npm install
+    cd server
+    npm install
+    ```
+
+
+3. **Set up environment variables:**
+
+    Create a `.env` file based on `.env.example`.
+
+
+4. **Setting up AWS S3 Bucket:**
+ 
+   * Go to the AWS Management Console.
+   * Navigate to S3 and create a new bucket.
+   * Make note of the Bucket Name and Region.
+   * Navigate to the bucket Permissions and set CORS Configuration and Bucket policy.
+
+---
+
+     CORS Configuration:
+    [
+      {
+          "AllowedHeaders": [
+              "*"
+          ],
+          "AllowedMethods": [
+              "GET",
+              "PUT",
+              "POST",
+              "DELETE",
+              "HEAD"
+          ],
+          "AllowedOrigins": [
+              "http://localhost:5173",
+              "*"
+          ],
+          "ExposeHeaders": [
+              "ETag",
+              "Content-Length",
+              "Content-Type"
+          ],
+          "MaxAgeSeconds": 3000
+      }
+    ] 
+  ---
+    
+     Bucket policy:
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Principal": "*",
+          "Action": [
+            "s3:GetObject",
+            "s3:PutObject",
+            "s3:DeleteObject"
+          ],
+          "Resource": "arn:aws:s3:::bucket-name/*"
+        }
+      ]
+    }
+---
+
+5. **Configure IAM User:**
+   * Create an IAM user with programmatic access.
+   * Attach the AmazonS3FullAccess policy to this user.
+   * Make note of the Access Key ID and Secret Access Key.
+   
+6. **Setup Google Console API:**
+   * Create a new project.
+   * Navigate to "APIs & Services".
+   * Configure OAuth Consent Screen & Create OAuth Credentials.
+   * Obtain Client ID and Secret & Make note of the Client ID and Client Secret for use in your .env.
+
+---
+
 
 <h2 style="color:#2aa884">🛡️ License</h2>
 
