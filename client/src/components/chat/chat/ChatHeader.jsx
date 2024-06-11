@@ -1,16 +1,41 @@
 import { useContext } from 'react';
-
-
 import { Box, Typography, styled } from '@mui/material';
 import { Search, MoreVert } from '@mui/icons-material';
-
-
-import PropTypes from 'prop-types'; // Import PropTypes
-
-
+import PropTypes from 'prop-types'; 
 
 import { AccountContext } from '../../../context/AccountProvider';
 
+
+const ChatHeader = ({ person }) => {
+
+    const { activeUsers } = useContext(AccountContext);
+
+    return (
+        <Header>
+            <Image src={person.picture} alt="dp" />
+            <Box>
+                <Name>{ person.name }</Name>
+                <Status>{activeUsers?.find(user => user.sub === person.sub) ? 'Online' : 'Offline'}</Status>
+            </Box>
+            <RightContainer>
+                <Search />
+                <MoreVert />
+            </RightContainer>
+        </Header>
+    )
+}
+
+export default ChatHeader;
+
+ChatHeader.propTypes = {
+    person: PropTypes.shape({
+        picture: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        sub: PropTypes.string.isRequired
+    }).isRequired
+};
+
+//styles:
 
 const Header = styled(Box)`
     background: #f0f2f5;
@@ -44,31 +69,3 @@ const RightContainer = styled(Box)`
         color: #000;
     }
 `;
-
-const ChatHeader = ({ person }) => {
-    const { activeUsers } = useContext(AccountContext);
-
-    return (
-        <Header>
-            <Image src={person.picture} alt="dp" />
-            <Box>
-                <Name>{ person.name }</Name>
-                <Status>{activeUsers?.find(user => user.sub === person.sub) ? 'Online' : 'Offline'}</Status>
-            </Box>
-            <RightContainer>
-                <Search />
-                <MoreVert />
-            </RightContainer>
-        </Header>
-    )
-}
-
-ChatHeader.propTypes = {
-    person: PropTypes.shape({
-        picture: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        sub: PropTypes.string.isRequired
-    }).isRequired
-};
-
-export default ChatHeader;

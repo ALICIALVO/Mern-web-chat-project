@@ -1,22 +1,14 @@
 import { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
 import { MoreVert } from '@mui/icons-material';
 import { Menu, MenuItem, styled } from '@mui/material';
 
 import { AccountContext } from '../../../context/AccountProvider'; 
 
-import { useNavigate } from 'react-router-dom';
-
-
-
-const MenuOption = styled(MenuItem)`
-    font-size: 1.4rem;
-    padding: 1.5rem 6rem 0.5rem 2.4rem;
-    color: #4A4A4A;
-`;
 
 const HeaderMenu = ({ setOpenDrawer }) => {
+
     const [anchorEl, setAnchorEl] = useState(null);
     const { logout } = useContext(AccountContext);
     const navigate = useNavigate(); 
@@ -29,7 +21,7 @@ const HeaderMenu = ({ setOpenDrawer }) => {
         setAnchorEl(e.currentTarget);
     };
 
-    //logout::::
+    //logout redirect::::
     const handleLogout = () => {
         handleClose();
         logout();
@@ -61,9 +53,16 @@ const HeaderMenu = ({ setOpenDrawer }) => {
     );
 };
 
+export default HeaderMenu;
 
 HeaderMenu.propTypes = {
     setOpenDrawer: PropTypes.func.isRequired,
 };
 
-export default HeaderMenu;
+//styles:
+
+const MenuOption = styled(MenuItem)`
+    font-size: 1.4rem;
+    padding: 1.5rem 6rem 0.5rem 2.4rem;
+    color: #4A4A4A;
+`;

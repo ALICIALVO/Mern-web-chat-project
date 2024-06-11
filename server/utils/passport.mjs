@@ -1,22 +1,24 @@
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import User from '../model/User.mjs'; // Import your User model
-
+import User from '../model/User.mjs'; 
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 // const { PORT, HOST } = process.env; 
 
 passport.use(new GoogleStrategy({
+
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   callbackURL: process.env.GOOGLE_CALLBACK_URL,
-  scope: ['openid','profile', 'email'] // Ensure these scopes are valid
+  scope: ['openid','profile', 'email'] // Ensure scopes are valid
   },
+
   async (accessToken, refreshToken, profile, cb) => {
-    const { id, displayName, emails, photos } = profile;
-    console.dir(profile);
-    let user = await User.findOne({ googleId: id });
+      const { id, displayName, emails, photos } = profile;
+      console.dir(profile);
+      let user = await User.findOne({ googleId: id });
 
     if (!user) {
       user = new User({
@@ -32,6 +34,5 @@ passport.use(new GoogleStrategy({
     cb(null, user);
   }
 ));
-
 
 export default passport;

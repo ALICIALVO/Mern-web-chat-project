@@ -1,8 +1,31 @@
 import {emptyChatImage } from '../../../assets/data';
 
-
 import { Box, Typography, styled, Divider } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
+
+
+const EmptyChat = () => {
+    
+    return(
+        <Component>
+            <Container>
+            <Image src= {emptyChatImage} alt='image' />
+            <Title>whatsapp web</Title>
+            <SubTitle>Send and receive messages without keeping your phone online.</SubTitle>
+            <SubTitle>Use WhatsApp on up to 4 linked devices and 1 phone at the same time.</SubTitle>
+            <StyledDivider />
+            <End2endmsg>
+            Your personal messages are end-to-end encrypted
+            <Lockicon />
+            </End2endmsg>
+            </Container>
+        </Component>
+    );
+}
+
+export default EmptyChat;
+
+//styles:
 
 const Component = styled(Box)`
     background: #f8f9fa;
@@ -55,23 +78,3 @@ const Lockicon = styled(LockIcon)`
     height: 1rem;
     opacity: 0.5;
 `;
-
-const EmptyChat = () => {
-    return(
-        <Component>
-            <Container>
-            <Image src= {emptyChatImage} alt='image' />
-            <Title>whatsapp web</Title>
-            <SubTitle>Send and receive messages without keeping your phone online.</SubTitle>
-            <SubTitle>Use WhatsApp on up to 4 linked devices and 1 phone at the same time.</SubTitle>
-            <StyledDivider />
-            <End2endmsg>
-            Your personal messages are end-to-end encrypted
-            <Lockicon />
-            </End2endmsg>
-            </Container>
-        </Component>
-    );
-}
-
-export default EmptyChat;

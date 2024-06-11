@@ -1,9 +1,41 @@
 import { useContext } from "react";
-
 import { Box, Typography, styled } from "@mui/material";
 
-//Components:
 import { AccountContext } from "../../context/AccountProvider";
+
+
+const Profile = () => {
+
+  const { account } = useContext(AccountContext);
+
+  return (
+
+    <>
+      <ImageContainer>
+        <Image src={account.picture} alt="dp" />
+      </ImageContainer>
+      <BoxWrapper>
+        <Typography>YOUR NAME</Typography>
+        <Typography>{account.name}</Typography>
+      </BoxWrapper>
+      <DescriptionContainer>
+        <Typography>
+          This is not your username or pin. This name will be visible to your
+          WhatsApp contacts.
+        </Typography>
+      </DescriptionContainer>
+      <BoxWrapper>
+        <Typography>About</Typography>
+        <Typography>Eat! Sleep! Code! Repeat</Typography>
+      </BoxWrapper>
+    </>
+    
+  );
+};
+
+export default Profile;
+
+//styles:
 
 const ImageContainer = styled(Box)`
   display: flex;
@@ -39,31 +71,3 @@ const DescriptionContainer = styled(Box)`
     font-size: 1.3rem;
   }
 `;
-
-const Profile = () => {
-  const { account } = useContext(AccountContext);
-
-  return (
-    <>
-      <ImageContainer>
-        <Image src={account.picture} alt="dp" />
-      </ImageContainer>
-      <BoxWrapper>
-        <Typography>YOUR NAME</Typography>
-        <Typography>{account.name}</Typography>
-      </BoxWrapper>
-      <DescriptionContainer>
-        <Typography>
-          This is not your username or pin. This name will be visible to your
-          WhatsApp contacts.
-        </Typography>
-      </DescriptionContainer>
-      <BoxWrapper>
-        <Typography>About</Typography>
-        <Typography>Eat! Sleep! Code! Repeat</Typography>
-      </BoxWrapper>
-    </>
-  );
-};
-
-export default Profile;

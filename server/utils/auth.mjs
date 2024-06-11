@@ -1,13 +1,17 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 export const generateToken = (userId) => {
+
   return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: '1h' });
 };
 
 export const authenticateJWT = (req, res, next) => {
+  
   const token = req.cookies.token;
+
   if (!token) {
     console.log('Token not found in cookies');
 
@@ -18,6 +22,7 @@ export const authenticateJWT = (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.userId = decoded.userId;
     next();
+
   } catch (err) {
     console.log('Invalid token:', err.message);
     res.status(403).json({ message: 'Invalid token' });

@@ -1,16 +1,42 @@
 import { useContext, useState } from "react";
-
-
 import {Box, styled} from '@mui/material';
 import { AddCommentOutlined as MessageIcon } from '@mui/icons-material';
-
-
 
 import { AccountContext } from "../../../context/AccountProvider";
 
 //components:
 import HeaderMenu from './HeaderMenu';
 import InfoDrawer from '../../drawer/infoDrawer';
+
+
+    const Header = () => {
+
+    const [openDrawer, setOpenDrawer] = useState(false);
+    const {account} = useContext(AccountContext);
+
+    const toggleDrawer = () => {
+        setOpenDrawer(true);
+    };
+    // console.log('Account:', account); // debug log for account object
+
+    return(
+        <>
+        <Component>
+        <Image src={account?.picture} alt="dp" 
+        onClick={toggleDrawer}/>
+        <Wrapper>
+            <MessageIcon style={{ fontSize: '1.5rem' }}/>
+            <HeaderMenu setOpenDrawer={setOpenDrawer}/>
+        </Wrapper>
+        </Component>
+        <InfoDrawer open={openDrawer} setOpen={setOpenDrawer}/>
+        </>
+    );
+}
+
+export default Header;
+
+//styles:
 
 const Component = styled(Box)`
     display: flex;
@@ -34,37 +60,9 @@ const Wrapper = styled(Box)`
     }
 `;
 
-
 const Image = styled('img')({
     height: 40,
     width:40,
     borderRadius:'50%',
     cursor:'pointer'
-})
-
-const Header = () => {
-    const [openDrawer, setOpenDrawer] = useState(false);
-    const {account} = useContext(AccountContext);
-
-    const toggleDrawer = () => {
-        setOpenDrawer(true);
-    };
-    // console.log('Account:', account); // debug log for account object
-
-
-    return(
-        <>
-        <Component>
-        <Image src={account?.picture} alt="dp" 
-        onClick={toggleDrawer}/>
-        <Wrapper>
-            <MessageIcon style={{ fontSize: '1.5rem' }}/>
-            <HeaderMenu setOpenDrawer={setOpenDrawer}/>
-        </Wrapper>
-        </Component>
-        <InfoDrawer open={openDrawer} setOpen={setOpenDrawer}/>
-        </>
-    );
-}
-
-export default Header;
+});

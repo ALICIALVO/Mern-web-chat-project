@@ -10,7 +10,7 @@ export default defineConfig({
 
 // export default defineConfig({
 //   server: {
-//     port: 5173,  // Default port for Vite
+//     port: 5173, 
 //   },
 //   plugins: [react()],
 // });

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const ConversationSchema = new mongoose.Schema({
+
     members: {
         type: Array
     },
@@ -11,7 +12,6 @@ const ConversationSchema = new mongoose.Schema({
         timestamps: true
     }
 );
-
 
 const conversation = mongoose.model('Conversation', ConversationSchema);
 

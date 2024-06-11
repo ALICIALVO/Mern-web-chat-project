@@ -1,58 +1,22 @@
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Box, InputBase, styled, Typography, CircularProgress, IconButton } from '@mui/material';
 import { EmojiEmotionsOutlined, AttachFile, Mic, Send } from '@mui/icons-material';
 import { uploadFile } from '../../../service/api.mjs';
-import PropTypes from 'prop-types';
 import Picker from '@emoji-mart/react'
 import data from '@emoji-mart/data';
 
-const Container = styled(Box)`
-    height: 5.5rem;
-    background: #f0f2f5;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    padding: 0 2.5rem;
-    & > * {
-        margin: 0.5rem;
-        color: #919191;
-    }
-`;
-
-const Search = styled(Box)`
-    border-radius: 1.8rem;
-    background-color: #FFFFFF;
-    width: calc(94% - 10rem);
-    display: flex;
-    align-items: center;
-`;
-
-const InputField = styled(InputBase)`
-    width: 100%;
-    padding: 2rem;
-    padding-left: 2.5rem;
-    font-size: 1.4rem;
-    height: 2rem;
-`;
-
-const ClipIcon = styled(AttachFile)`
-    transform: rotate(40deg);
-`;
-
-const EmojiPickerContainer = styled(Box)`
-    position: absolute;
-    bottom: 5rem; 
-    /* left: 0; */
-    z-index: 1; 
-`;
 
 const Footer = ({ sendText, setValue, value, file, setFile, setImage }) => {
+
     const [uploading, setUploading] = useState(false);
     const [uploadComplete, setUploadComplete] = useState(false);
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
     useEffect(() => {
+
         const uploadImage = async () => {
+
             if (file) {
                 setUploading(true);
                 setUploadComplete(false);
@@ -66,10 +30,13 @@ const Footer = ({ sendText, setValue, value, file, setFile, setImage }) => {
                 setUploadComplete(true);
             }
         };
+
         uploadImage();
+
     }, [file, setImage]);
 
     const onFileChange = (e) => {
+
         const selectedFile = e.target.files[0];
         if (selectedFile) {
             setFile(selectedFile);
@@ -78,6 +45,7 @@ const Footer = ({ sendText, setValue, value, file, setFile, setImage }) => {
     };
 
     const handleSendText = (e) => {
+
         if (e.type === 'click' || (e.key === 'Enter' && value.trim())) {
             sendText(e);
             setValue('');
@@ -87,6 +55,7 @@ const Footer = ({ sendText, setValue, value, file, setFile, setImage }) => {
     };
 
     const addEmoji = (emoji) => {
+
         setValue(value + emoji.native);
         setShowEmojiPicker(false);
     };
@@ -131,6 +100,9 @@ const Footer = ({ sendText, setValue, value, file, setFile, setImage }) => {
     );
 };
 
+
+export default Footer;
+
 Footer.propTypes = {
     sendText: PropTypes.func.isRequired,
     setValue: PropTypes.func.isRequired,
@@ -140,5 +112,43 @@ Footer.propTypes = {
     setImage: PropTypes.func.isRequired
 };
 
-export default Footer;
+//styles:
 
+const Container = styled(Box)`
+    height: 5.5rem;
+    background: #f0f2f5;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 2.5rem;
+    & > * {
+        margin: 0.5rem;
+        color: #919191;
+    }
+`;
+
+const Search = styled(Box)`
+    border-radius: 1.8rem;
+    background-color: #FFFFFF;
+    width: calc(94% - 10rem);
+    display: flex;
+    align-items: center;
+`;
+
+const InputField = styled(InputBase)`
+    width: 100%;
+    padding: 2rem;
+    padding-left: 2.5rem;
+    font-size: 1.4rem;
+    height: 2rem;
+`;
+
+const ClipIcon = styled(AttachFile)`
+    transform: rotate(40deg);
+`;
+
+const EmojiPickerContainer = styled(Box)`
+    position: absolute;
+    bottom: 5rem; 
+    z-index: 1; 
+`;

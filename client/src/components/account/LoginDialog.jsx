@@ -1,12 +1,88 @@
+import { useContext, useEffect } from 'react';
+import { useLocation } from "react-router-dom";
 import { Dialog, Typography, List, ListItem, Box, Button, styled } from '@mui/material';
 // import { Dialog, Typography, List, ListItem, Box, Button, styled, Divider } from '@mui/material';
 import { Google } from '@mui/icons-material';
-import { qrCodeImage } from '../../assets/data.mjs';
-import { useContext, useEffect } from 'react';
-import { useLocation } from "react-router-dom";
-import { AccountContext } from '../../context/AccountProvider';
-import { addUser } from '../../service/api.mjs';
 import { useTheme } from '@mui/material/styles';
+import { qrCodeImage } from '../../assets/data.mjs';
+import { addUser } from '../../service/api.mjs';
+
+import { AccountContext } from '../../context/AccountProvider';
+
+const LoginDialog = () => {
+
+    const { setAccount } = useContext(AccountContext);
+    const location = useLocation();
+    const theme = useTheme();
+
+  useEffect(() => {
+
+        const params = new URLSearchParams(location.search);
+        const profile = params.get('profile');
+      
+        if (profile) {
+
+            const userProfile = JSON.parse(decodeURIComponent(profile));
+            const user = {
+                name: userProfile.displayName || 'Anonymous',
+                email: userProfile.email || '',
+                picture: userProfile.picture || '',
+                sub: userProfile.googleId || ''
+            };
+
+            setAccount(user);
+          
+            addUser(user).then(response => {
+
+              if (response?.msg === 'User already exists') {
+
+                  console.info('User already exists in the database.');
+              }
+          });
+
+            window.history.replaceState(null, '', window.location.pathname);
+        }
+
+    }, [setAccount, location.search]);
+
+  const handleLogin = () => {
+
+    window.location.href = import.meta.env.VITE_GOOGLE_AUTH_URL;
+  };
+
+  return (
+      <Dialog
+        open={true}
+        slotProps={{ backdrop: { style: { backgroundColor: 'unset' } } }}
+        maxWidth={'md'}
+        PaperProps={{ sx: dialogStyle(theme) }}
+      >
+        <Component>
+          <Container>
+            <Title>Use WhatsApp on your computer</Title>
+            <StyledList>
+              <ListItem>1. Open WhatsApp on your phone</ListItem>
+              <ListItem>2. Tap Menu on Android, or Settings on iPhone</ListItem>
+              <ListItem>3. Tap Linked devices and then Link a device</ListItem>
+              <ListItem>4. Point your phone at this screen to capture the QR code</ListItem>
+            </StyledList>
+          </Container>
+          <QRCodeContainer>
+            <LoginButton onClick={handleLogin} variant="contained">
+              <Google fontSize="small" />
+              <LoginButtonText>Log in with Google</LoginButtonText>
+            </LoginButton>
+            <QRCode src={qrCodeImage} alt="QR Code" />
+          </QRCodeContainer>
+        </Component>
+        {/* <StyledDivider /> */}
+      </Dialog>
+    );
+};
+
+export default LoginDialog;
+
+//styles:
 
 const Component = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -149,69 +225,3 @@ const dialogStyle = (theme) => ({
 // margin: 0 auto;
 // opacity: 0.8;
 // `;
-
-const LoginDialog = () => {
-const { setAccount } = useContext(AccountContext);
-const location = useLocation();
-const theme = useTheme();
-
-useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const profile = params.get('profile');
-  
-    if (profile) {
-        const userProfile = JSON.parse(decodeURIComponent(profile));
-        const user = {
-            name: userProfile.displayName || 'Anonymous',
-            email: userProfile.email || '',
-            picture: userProfile.picture || '',
-            sub: userProfile.googleId || ''
-        };
-
-        setAccount(user);
-      
-        addUser(user).then(response => {
-          if (response?.msg === 'User already exists') {
-              console.info('User already exists in the database.');
-          }
-      });
-
-        window.history.replaceState(null, '', window.location.pathname);
-    }
-}, [setAccount, location.search]);
-
-const handleLogin = () => {
-    window.location.href = import.meta.env.VITE_GOOGLE_AUTH_URL;
-};
-
-return (
-  <Dialog
-    open={true}
-    slotProps={{ backdrop: { style: { backgroundColor: 'unset' } } }}
-    maxWidth={'md'}
-    PaperProps={{ sx: dialogStyle(theme) }}
-  >
-    <Component>
-      <Container>
-        <Title>Use WhatsApp on your computer</Title>
-        <StyledList>
-          <ListItem>1. Open WhatsApp on your phone</ListItem>
-          <ListItem>2. Tap Menu on Android, or Settings on iPhone</ListItem>
-          <ListItem>3. Tap Linked devices and then Link a device</ListItem>
-          <ListItem>4. Point your phone at this screen to capture the QR code</ListItem>
-        </StyledList>
-      </Container>
-      <QRCodeContainer>
-        <LoginButton onClick={handleLogin} variant="contained">
-          <Google fontSize="small" />
-          <LoginButtonText>Log in with Google</LoginButtonText>
-        </LoginButton>
-        <QRCode src={qrCodeImage} alt="QR Code" />
-      </QRCodeContainer>
-    </Component>
-    {/* <StyledDivider /> */}
-  </Dialog>
-);
-};
-
-export default LoginDialog;

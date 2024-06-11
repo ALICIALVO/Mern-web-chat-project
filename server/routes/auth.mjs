@@ -6,7 +6,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const router = express.Router();
-// const CLIENT_URL = 'http://localhost:5173/messenger';
 const { CLIENT_URL } = process.env;
 
 // Initial route to start the authentication process
@@ -44,7 +43,8 @@ router.get('/google/callback',
 );
 
 export default router;
-//Backend:
+
+//Server:::
 // Create the JWT token and set it as an HTTP-only cookie.
 // Create a user profile object before redirection.
 // Redirect to the frontend with the user profile in the URL query parameters.

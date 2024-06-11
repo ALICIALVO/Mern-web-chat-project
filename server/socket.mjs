@@ -16,6 +16,7 @@ const initializeSocket = (httpServer) => {
     let users = [];
 
     const addUser = (userData, socketId) => {
+
         if (!users.some(user => user.sub == userData.sub)) {
             users.push({ ...userData, socketId });
             console.log('User added:', userData, 'Socket ID:', socketId);
@@ -23,6 +24,7 @@ const initializeSocket = (httpServer) => {
     };
 
     const removeUser = (socketId) => {
+
         const user = users.find(user => user.socketId === socketId);
         if (user) {
             users = users.filter(user => user.socketId !== socketId);
@@ -35,6 +37,7 @@ const initializeSocket = (httpServer) => {
     };
 
     io.on('connection', (socket) => {
+
         console.log('A user connected, socket ID:', socket.id);
 
         socket.on('addUsers', userData => {
@@ -43,6 +46,7 @@ const initializeSocket = (httpServer) => {
         });
 
         socket.on('sendMessage', data => {
+
             console.log(`sendMessage event triggered by socket ${socket.id} with data:`, data);
             const user = getUser(data.receiverId);
             if (user) {
@@ -54,6 +58,7 @@ const initializeSocket = (httpServer) => {
 
         // Custom disconnect event
         socket.on('customDisconnect', () => {
+
             console.log('Custom disconnect event received for socket:', socket.id);
             removeUser(socket.id);
             io.emit('getUsers', users);
@@ -61,6 +66,7 @@ const initializeSocket = (httpServer) => {
 
         // Default disconnect event
         socket.on('disconnect', () => {
+            
             console.log('A user disconnected, socket ID:', socket.id);
             removeUser(socket.id);
             io.emit('getUsers', users);

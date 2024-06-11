@@ -73,5 +73,3 @@
 
 // export default VerticalSideBar;
 
-
-// header לנטרל את הקופמפונטה הזאת ולהפעיל במניו את 
