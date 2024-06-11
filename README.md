@@ -1,38 +1,49 @@
-<h1 align="center" id="title">WebChat</h1>
+<h1 style="color:#2aa884" align="center" id="title">WebChat</h1>
 
 <p align="center">
-  <img src="https://s3.ezgif.com/tmp/ezgif-3-5c7ea1e782.png" alt="project-image" width="600">
+  <img src="./client/src/assets/images/WebChat.png" alt="project-image" width="600">
 </p>
+  <h1 style="color:#2aa884" align="center">Welcome to WebChat!</h1>
+<p align="center" id="description">Inspired by WhatsApp Web, this project is built using modern web development technologies.<br> The primary objective is to replicate the core functionalities of WhatsApp Web.
+<br>Build with a dynamic front-end powered by React, a reliable back-end built on Node.js and Express,<br> and secure media storage using AWS S3, WebChat showcases the best of modern web development.<br> Dive in and enjoy a seamless, feature-rich messaging experience!
 
-<p align="center" id="description">Welcome to the WebChat project! This project is a fully functional clone of WhatsApp Web built using modern web development technologies. The primary objective is to replicate the core functionalities of WhatsApp Web while implementing additional features for enhanced user experience.</p>
 
----
-
-<h2 align="center">Project Screenshots</h2>
-
-<p align="center">
-  <img src="https://s3.ezgif.com/tmp/ezgif-3-f0befee1be.png" alt="project-screenshot" width="400" style="margin: 10px;">
-  <img src="https://s3.ezgif.com/tmp/ezgif-3-72e575e399.png" alt="project-screenshot" width="400" style="margin: 10px;">
-  <img src="https://s3.ezgif.com/tmp/ezgif-3-d3e3d081f5.png" alt="project-screenshot" width="400" style="margin: 10px;">
-  <img src="https://s3.ezgif.com/tmp/ezgif-3-92fadbe0cc.png" alt="project-screenshot" width="400" style="margin: 10px;">
 </p>
 
 ---
 
-<h2>🧐 Features</h2>
+<h2 style="color:#2aa884" align="center">Project Screenshots</h2>
+
+<p align="center">
+  <img src="./client/src/assets/images/login.png" alt="project-screenshot" width="300" style="margin: 10px;">
+  <img src="./client/src/assets/images/main.png" alt="project-screenshot" width="300" style="margin: 10px;">
+  <img src="./client/src/assets/images/emoji.png" alt="project-screenshot" width="300" style="margin: 10px;">
+  <img src="./client/src/assets/images/profile.png" alt="project-screenshot" width="300" style="margin: 10px;">
+  <img src="./client/src/assets/images/message.png" alt="project-screenshot" width=500" style="margin: 10px;">
+</p>
+
+---
+
+<h2 style="color:#2aa884">🧐 Features</h2>
 
 Here are some of the project's best features:
 
 * **User Authentication:** Secure login and logout functionalities.
 * **Real-time Messaging:** Instant messaging using Socket.IO.
-* **Media Sharing:** Share images and PDFs seamlessly.
-* **Responsive Design:** Fully responsive for all device sizes.
+* **Media Sharing:** Upload and Download images and PDFs seamlessly.
 * **User Status:** Displays online/offline status of users.
-* **Conversation Management:** Efficiently handles multiple conversations.
+* **Responsive Design:** Fully responsive for all device sizes.
+* **Enhanced Emoji Support:**  Send and receive emojis easily.
+* **Search Conversations:** Quickly find messages with a search function.
+* **Profile View:** View your own profile.
 
 ---
+<h2 style="color:#2aa884">Live Action</h2>
 
-<h2>🛠️ Installation Steps</h2>
+* **Online Website:** <a href="https://web-chat-app-omor.onrender.com">WebChat</a>
+
+
+<h2 style="color:#2aa884">🛠️ Installation Steps</h2>
 
 1. **Clone the repository:**
 
@@ -46,7 +57,7 @@ Here are some of the project's best features:
     ```sh
     cd client
     npm install
-    cd ../server
+    cd server
     npm install
     ```
 
@@ -56,53 +67,36 @@ Here are some of the project's best features:
 
 ---
 
-<h2>💻 Built With</h2>
+<h2 style="color:#2aa884">💻 Built With</h2>
 
 Technologies used in the project:
 
-* Node.js
-* Express
-* Socket.IO
-* MongoDB
-* AWS S3
+<h3>Client:</h3>
+
 * Vite
-* Axios
+* ReactJs
 * Material-UI
 * Styled-components
-* React
+* Axios
+* Socket.io-client
+  
+<h3>Server:</h3>
+
+* NodeJs
+* ExpressJs
+* MongoDB
+* Mongoose
+* Socket.IO
+* JWT
+* AWS S3
+* PassportJs
+* Multer
 
 ---
 
-<h2>🛡️ License</h2>
+<h2 style="color:#2aa884">🛡️ License</h2>
 
 This project is licensed under the MIT License.
 
 
-
-Introduction
-This project is an attempt to recreate the WhatsApp Web interface with functionalities such as user authentication, real-time messaging, media sharing, and more. It is built using React for the front end and Node.js with Express for the backend. AWS S3 is used for storing media files.
-
-Features
-User Authentication (Login/Logout)
-Real-time Messaging with Socket.IO
-Media Sharing (Images, PDFs)
-Responsive Design
-User Status (Online/Offline)
-End-to-End Encryption Messages
-Conversation Management
-Technologies Used
-Frontend:
-
-React
-Material-UI
-Axios
-Backend:
-
-Node.js
-Express
-Socket.IO
-MongoDB
-AWS S3
-Installation
-To get started with the project, follow these steps:
 

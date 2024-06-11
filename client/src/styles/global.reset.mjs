@@ -1,8 +1,8 @@
 import { createGlobalStyle } from 'styled-components';
-import { reset } from 'styled-reset'; // Importing the CSS reset
+import { reset } from 'styled-reset';
 
 const GlobalStyle = createGlobalStyle`
-  ${reset}  // Apply the reset CSS
+  ${reset} 
 
 `;
 
