@@ -51,15 +51,21 @@ const Conversations = ({ text }) => {
   }, [fetchData, newMessageFlag]);
 
   useEffect(() => {
-    socket.current.emit("addUsers", account);
-    socket.current.on("getUsers", (users) => {
+    const currentSocket = socket.current; // store the value of socket.current
+    currentSocket.emit("addUsers", account);
+    currentSocket.on("getUsers", (users) => {
       setActiveUsers(users);
-      fetchData(); 
+      fetchData();
     });
-
-    socket.current.on("getMessage", () => {
-      fetchData(); // Refresh user list when a new message is received
+  
+    currentSocket.on("getMessage", () => {
+      fetchData(); // refresh user list when a new message is received
     });
+  
+    return () => {
+      currentSocket.off("getUsers");
+      currentSocket.off("getMessage");
+    };
   }, [account, socket, setActiveUsers, fetchData]);
 
 
