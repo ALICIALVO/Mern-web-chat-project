@@ -67,6 +67,7 @@ Technologies used in the project:
 <h2 style="color:#2aa884">Live Action</h2>
 
 * **Online Website:** <a href="https://web-chat-app-omor.onrender.com">WebChat</a>
+* To communicate via sockets, just open two browsers and sign in with different Gmail accounts.
 ---
 <h2 style="color:#2aa884">🛠️ Installation Steps</h2>
 
