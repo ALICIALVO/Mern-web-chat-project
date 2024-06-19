@@ -1,6 +1,6 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom";
-import { Dialog, Typography, List, ListItem, Box, Button, styled } from '@mui/material';
+import { Dialog, Typography, List, ListItem, Box, Button, styled, CircularProgress} from '@mui/material';
 // import { Dialog, Typography, List, ListItem, Box, Button, styled, Divider } from '@mui/material';
 import { Google } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
@@ -14,6 +14,7 @@ const LoginDialog = () => {
     const { setAccount } = useContext(AccountContext);
     const location = useLocation();
     const theme = useTheme();
+    const [loading, setLoading] = useState(false);
 
   useEffect(() => {
 
@@ -46,6 +47,7 @@ const LoginDialog = () => {
     }, [setAccount, location.search]);
 
   const handleLogin = () => {
+    setLoading(true);
 
     window.location.href = import.meta.env.VITE_GOOGLE_AUTH_URL;
   };
@@ -68,9 +70,8 @@ const LoginDialog = () => {
             </StyledList>
           </Container>
           <QRCodeContainer>
-            <LoginButton onClick={handleLogin} variant="contained">
-              <Google fontSize="small" />
-              <LoginButtonText>Log in with Google</LoginButtonText>
+            <LoginButton onClick={handleLogin} variant="contained" disabled={loading}>
+            {loading ? <CircularProgress size={40} color="success"/> : <><Google fontSize="small" /><LoginButtonText>Log in with Google</LoginButtonText></>}
             </LoginButton>
             <QRCode src={qrCodeImage} alt="QR Code" />
           </QRCodeContainer>
