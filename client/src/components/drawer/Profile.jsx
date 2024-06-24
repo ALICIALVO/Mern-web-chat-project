@@ -12,7 +12,7 @@ const Profile = () => {
 
     <>
       <ImageContainer>
-        <Image src={account.picture} alt="dp" />
+        <Image src={account.picture.replace('s96-c', 's256-c')} alt="dp" />
       </ImageContainer>
       <BoxWrapper>
         <Typography>YOUR NAME</Typography>
